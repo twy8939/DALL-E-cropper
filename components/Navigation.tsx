@@ -3,11 +3,18 @@ import IconButton from "./IconButton";
 import { FiDownload, FiUpload } from "react-icons/fi";
 
 interface Props {
+  mode: "crop" | "generate";
   onUpload?: (blob: string) => void;
   onDownload?: () => void;
+  onCrop?: () => void;
 }
 
-export default function Navigation({ onUpload, onDownload }: Props) {
+export default function Navigation({
+  mode,
+  onUpload,
+  onDownload,
+  onCrop,
+}: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleUploadClick = () => {
@@ -34,6 +41,13 @@ export default function Navigation({ onUpload, onDownload }: Props) {
           onChange={onLoadImage}
         />
       </IconButton>
+      <div className="flex grow items-center justify-center gap-2 mx-20">
+        {mode === "crop" && (
+          <button className="bg-sky-500 px-3 py-2 text-white" onClick={onCrop}>
+            Crop
+          </button>
+        )}
+      </div>
 
       <IconButton title="Download Image" onClick={onDownload}>
         <FiDownload />
