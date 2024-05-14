@@ -3,17 +3,21 @@
 import React, { useRef, useState } from "react";
 import Navigation from "./Navigation";
 import {
+  Coordinates,
+  CropperRef,
   FixedCropper,
   FixedCropperRef,
   ImageRestriction,
 } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
+import ImageSelector from "./ImageSelector";
 
 export default function ImageEditor() {
   const cropperRef = useRef<FixedCropperRef>(null);
 
   const [src, setSrc] = useState("");
   const [mode, setMode] = useState<"crop" | "generate">("crop");
+  const [selectionRect, setSelectionRect] = useState<Coordinates | null>();
 
   const isGenerating = mode === "generate";
 
@@ -71,10 +75,18 @@ export default function ImageEditor() {
     });
   };
 
+  const onSelectionChange = (cropper: CropperRef) => {
+    setSelectionRect(cropper.getCoordinates());
+  };
+
   return (
     <div className="w-full bg-slate-950 rounded-lg overflow-hidden">
       {isGenerating ? (
-        <img src={src} />
+        <ImageSelector
+          src={src}
+          selectionRect={selectionRect}
+          onSelectionChange={onSelectionChange}
+        />
       ) : (
         <FixedCropper
           src={src}
