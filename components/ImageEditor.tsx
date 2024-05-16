@@ -11,6 +11,8 @@ import {
 } from "react-advanced-cropper";
 import "react-advanced-cropper/dist/style.css";
 import ImageSelector from "./ImageSelector";
+import { resolve } from "path";
+import { rejects } from "assert";
 
 export default function ImageEditor() {
   const cropperRef = useRef<FixedCropperRef>(null);
@@ -77,6 +79,39 @@ export default function ImageEditor() {
 
   const onSelectionChange = (cropper: CropperRef) => {
     setSelectionRect(cropper.getCoordinates());
+  };
+
+  const getImageData = async () => {
+    if (!src) return;
+
+    const canvas = document.createElement("canvas");
+    await drawImage(canvas, src);
+
+    return getCanvasData(canvas);
+  };
+
+  const drawImage = (canvas: HTMLCanvasElement | null, src: string) => {
+    const context = canvas?.getContext("2d");
+
+    if (!canvas || !context) return;
+
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.crossOrigin = "anonymous";
+
+      image.onload = () => {
+        const width = image.width;
+        const height = image.height;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        context.drawImage(image, 0, 0, width, height);
+        resolve(context);
+      };
+
+      image.src = src;
+    });
   };
 
   return (
