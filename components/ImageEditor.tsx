@@ -114,6 +114,27 @@ export default function ImageEditor() {
     });
   };
 
+  const getMaskData = async () => {
+    if (!src || !selectionRect) return;
+
+    const canvas = document.createElement("canvas");
+    drawMask(canvas, selectionRect);
+
+    return getCanvasData(canvas);
+  };
+
+  const drawMask = (
+    canvas: HTMLCanvasElement | null,
+    rect: Coordinates | null
+  ) => {
+    const context = canvas?.getContext("2d");
+
+    if (!context || !rect) return;
+
+    context.globalCompositeOperation = "destination-out";
+    context.fillRect(rect.left, rect.top, rect.width, rect.height);
+  };
+
   return (
     <div className="w-full bg-slate-950 rounded-lg overflow-hidden">
       {isGenerating ? (
