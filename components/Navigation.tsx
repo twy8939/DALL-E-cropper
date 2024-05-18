@@ -1,12 +1,16 @@
 import React, { useRef } from "react";
 import IconButton from "./IconButton";
 import { FiDownload, FiUpload } from "react-icons/fi";
+import GenerateImage from "./GenerateImage";
 
 interface Props {
   mode: "crop" | "generate";
   onUpload?: (blob: string) => void;
   onDownload?: () => void;
   onCrop?: () => void;
+  onGenerate?: (blob: Blob, prompt: string) => void;
+  getImageData: () => Promise<any>;
+  getMaskData: () => Promise<any>;
 }
 
 export default function Navigation({
@@ -14,6 +18,9 @@ export default function Navigation({
   onUpload,
   onDownload,
   onCrop,
+  onGenerate,
+  getImageData,
+  getMaskData,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -26,6 +33,12 @@ export default function Navigation({
 
     if (onUpload && file) {
       onUpload(URL.createObjectURL(file));
+    }
+  };
+
+  const onGenerateImage = (blob: Blob, prompt: string) => {
+    if (onGenerate) {
+      onGenerate(blob, prompt);
     }
   };
 
@@ -46,6 +59,13 @@ export default function Navigation({
           <button className="bg-sky-500 px-3 py-2 text-white" onClick={onCrop}>
             Crop
           </button>
+        )}
+        {mode === "generate" && (
+          <GenerateImage
+            getImageData={getImageData}
+            getMaskData={getMaskData}
+            onGenerate={onGenerateImage}
+          />
         )}
       </div>
 

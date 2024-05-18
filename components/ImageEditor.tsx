@@ -166,6 +166,8 @@ export default function ImageEditor() {
         onDownload={handleDownloadClick}
         onUpload={handleUploadClick}
         onCrop={crop}
+        getImageData={getImageData}
+        getMaskData={getMaskData}
       />
     </div>
   );
