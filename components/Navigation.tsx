@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import IconButton from "./IconButton";
 import { FiDownload, FiUpload } from "react-icons/fi";
 import GenerateImage from "./GenerateImage";
+import Button from "./Button";
 
 interface Props {
   mode: "crop" | "generate";
@@ -55,11 +56,7 @@ export default function Navigation({
         />
       </IconButton>
       <div className="flex grow items-center justify-center gap-2 mx-20">
-        {mode === "crop" && (
-          <button className="bg-sky-500 px-3 py-2 text-white" onClick={onCrop}>
-            Crop
-          </button>
-        )}
+        {mode === "crop" && <Button onClick={onCrop}>Crop</Button>}
         {mode === "generate" && (
           <GenerateImage
             getImageData={getImageData}
