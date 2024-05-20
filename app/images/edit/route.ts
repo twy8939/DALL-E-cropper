@@ -1,5 +1,5 @@
 export default async function POST(request: Request) {
-  const apiKey = process.env.OPENAI_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_OPENAI_KEY;
   const formData = await request.formData();
 
   const res = await fetch("https://api.openai.com/v1/images/edits", {

@@ -9,7 +9,7 @@ interface Props {
   onUpload?: (blob: string) => void;
   onDownload?: () => void;
   onCrop?: () => void;
-  onGenerate?: (blob: Blob, prompt: string) => void;
+  onGenerate?: (blob: string, prompt: string) => void;
   getImageData: () => Promise<any>;
   getMaskData: () => Promise<any>;
 }
@@ -39,7 +39,7 @@ export default function Navigation({
 
   const onGenerateImage = (blob: Blob, prompt: string) => {
     if (onGenerate) {
-      onGenerate(blob, prompt);
+      onGenerate(URL.createObjectURL(blob), prompt);
     }
   };
 

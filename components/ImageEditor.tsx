@@ -135,6 +135,10 @@ export default function ImageEditor() {
     context.fillRect(rect.left, rect.top, rect.width, rect.height);
   };
 
+  const onGenerate = (imageSrc: string, prompt: string) => {
+    setSrc(imageSrc);
+  };
+
   return (
     <div className="w-full bg-slate-950 rounded-lg overflow-hidden">
       {isGenerating ? (
@@ -168,6 +172,7 @@ export default function ImageEditor() {
         onCrop={crop}
         getImageData={getImageData}
         getMaskData={getMaskData}
+        onGenerate={onGenerate}
       />
     </div>
   );
